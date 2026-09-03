@@ -20,11 +20,58 @@ SwissMetNet, the automatic monitoring network of MeteoSwiss, comprises 158 autom
 
 ## top-level
 
-ogd-smn_meta_datainventory.csv: List with columns station_abbr, meas_cat_nr, data_since, data_till, owner
+ogd-smn_meta_datainventory.csv: 
+List with columns:
+- station_abbr
+- meas_cat_nr
+- data_since
+- data_till
+- owner
 
-ogd-smn_meta_parameters.csv:    List of all measurement parameters. Columns (prefix: param_): shortname, description_de, "_fr, "_it, "_en, group_de, "_fr, "_it, "_en, granularity, decimals, datatype, unit
+ogd-smn_meta_parameters.csv:    
+List of all measurement parameters. 
+Columns (prefix: param_): 
+- shortname
+- description_de
+- "_fr
+- "_it
+- "_en
+- group_de
+- "_fr
+- "_it
+- "_en
+- granularity
+- decimals
+- datatype
+- unit
 
-ogd-smn_meta_stations.csv:      List of measurement stations. Columns (prefix: station_): abbr, name, canton, wigos_id, type_de, "_fr, "_it, "_en, dataowner, data_since, height_masl, height_barometer_masl, coordinates_lv95_east, coordinates_lv95_north, coordinates_wgs84_lat, coordinates_wgs84_lon, exposition_de, "_fr, "_it, "_en, url_de, "_fr, "_it, "_en
+ogd-smn_meta_stations.csv:      
+List of measurement stations. 
+Columns (prefix: station_): 
+- abbr
+- name
+- canton
+- wigos_id
+- type_de
+- "_fr
+- "_it
+- "_en
+- dataowner
+- data_since
+- height_masl
+- height_barometer_masl
+- coordinates_lv95_east
+- coordinates_lv95_north
+- coordinates_wgs84_lat
+- coordinates_wgs84_lon
+- exposition_de
+- "_fr
+- "_it
+- "_en
+- url_de
+- "_fr
+- "_it
+- "_en
 
 ## data files
 
