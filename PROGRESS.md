@@ -47,3 +47,6 @@
 ## Notes
 - Data source: MeteoSchweiz automatic weather stations (158 stations)
 - Portfolio repo: https://github.com/nkiper/azure-meteoschweiz-pipeline
+
+# To do at end of project
+- remember to delete 'sqls-nkipermeteo-dev'
