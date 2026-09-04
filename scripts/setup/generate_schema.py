@@ -1,11 +1,15 @@
 # generate_schema.py
 # Script to read .csv file, extract column names, infer data types, and create CREATE TABLE statement
 
+from dotenv import load_dotenv
 import pandas as pd
 import os
 
-DATA_DIR = r'/Users/natasha/Desktop/projects/azure-meteoschweiz-pipeline/data/raw'
-SCRIPT_DIR = r'/Users/natasha/Desktop/projects/azure-meteoschweiz-pipeline/scripts/sql'
+load_dotenv()
+PROJECT_DIR = os.getenv(r'PROJECT_DIR')
+
+DATA_DIR = os.path.join(PROJECT_DIR,r'data/raw')
+SCRIPT_DIR = os.path.join(PROJECT_DIR,r'scripts/sql')
 TEST_FILENAME = 'ogd-smn_beh_d_recent.csv'
 TESTING = False
 
