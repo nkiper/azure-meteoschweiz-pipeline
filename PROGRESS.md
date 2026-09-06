@@ -14,12 +14,35 @@
 - **Key Deliverable**: Storage Account `nkipermeteo` with container `data` and folder structure
 - **Date Completed**: 4. 9. 2026
 
-### Lesson 3: SQL Fundamentals (Next)
-- **Status**: Not Started
-- **Topics**: SELECT, WHERE, JOINs, aggregate functions, CTEs
+### Lesson 3: SQL Fundamentals
+- **Status**: Completed
+- **Topics**: 
+  - Azure SQL Database setup and configuration
+  - Relational schema design (primary keys, constraints, data types)
+  - SQL basics and OLAP vs OLTP
+  - Python-to-SQL integration (pyodbc)
+  - Secure credential management (.env, parameterized queries)
+  - ODBC driver setup and troubleshooting
+  - SELECT, WHERE, ORDER BY, GROUP BY queries
+- **Key Deliverables**:
+  - Azure SQL Server: `sqls-nkipermeteo-dev`
+  - Database: `db-nkipermeteo`
+  - Table: `[ogd-smn_beh_d_recent]` (41 columns, composite primary key)
+  - `scripts/setup/generate_schema.py` (auto-generates CREATE TABLE from CSV)
+  - `scripts/setup/load_data.py` (loads CSV data into SQL via pyodbc)
+  - `scripts/sql/lesson-04-exploration.sql` (exploratory queries)
+  - `requirements.txt` updated with pandas, pyodbc, python-dotenv
+  - Data loaded: 246 rows of meteorological data (BEH station)
+- **Date Completed**: September 6, 2026
 
-### Lesson 4: MeteoSchweiz Data Exploration
-- **Status**: Planned
+### Lesson 4: Multi-Station Data Ingestion
+- **Status**: Not Started
+- **Topics**: 
+  - Automating data download from MeteoSchweiz API
+  - Loading data for all 158 stations
+  - Scaling ETL pipeline
+  - Handling multiple files and batch loading
+- **Expected Focus**: Expand from single station (BEH) to full Swiss network
 
 ---
 
