@@ -33,7 +33,7 @@
   - `scripts/sql/lesson-04-exploration.sql` (exploratory queries)
   - `requirements.txt` updated with pandas, pyodbc, python-dotenv
   - Data loaded: 246 rows of meteorological data (BEH station)
-- **Date Completed**: September 6, 2026
+- **Date Completed**: 6. 9. 2026
 
 ### Lesson 4: Multi-Station Data Ingestion
 - **Status**: Not Started
