@@ -1,6 +1,7 @@
 # generate_schema.py
 # Script to read .csv file, extract column names, infer data types, and create CREATE TABLE statement
 
+# %%
 from dotenv import load_dotenv
 import pandas as pd
 import os
@@ -10,8 +11,8 @@ PROJECT_DIR = os.getenv(r'PROJECT_DIR')
 
 DATA_DIR = os.path.join(PROJECT_DIR,r'data/raw')
 SCRIPT_DIR = os.path.join(PROJECT_DIR,r'scripts/sql')
-TEST_FILENAME = 'ogd-smn_beh_d_recent.csv'
-TESTING = False
+FILEDIR = os.path.join(DATA_DIR,'beh')
+FILENAME = 'ogd-smn_beh_d_recent.csv'
 
 dtype_lookup = {
     'int64' : 'INT',
@@ -22,6 +23,7 @@ dtype_lookup = {
 }
 
 UNMAPPED_TYPE = 'VARCHAR(255)'
+
 
 def convert_dtype(pd_type):
     try:
@@ -36,15 +38,14 @@ def get_createtable_entry(df, name):
     else:
         return name + ' ' + convert_dtype(str(df[name].dtype))
 
+# %%
 def main():
-    if not TESTING:
-        print("Process data file located in data/raw")
-        filename = input("Enter filename: ")
-    else:
-        filename = TEST_FILENAME
-    file_path = os.path.join(DATA_DIR,filename)
+    filename = FILENAME
+    file_path = os.path.join(FILEDIR,filename)
 
-    script_name = 'create-tbl-'+os.path.splitext(filename)[0]+'.sql'
+    table_name = os.path.splitext(filename[:8]+filename[12:])[0]
+    
+    script_name = 'create-tbl-'+table_name+'.sql'
     script_path = os.path.join(SCRIPT_DIR,script_name)
 
     try:
@@ -55,8 +56,6 @@ def main():
 
     column_names = list(df)
     df['reference_timestamp'] = pd.to_datetime(df['reference_timestamp'], format='%d.%m.%Y %H:%M')
-
-    table_name = os.path.splitext(filename)[0]
 
     try:
         script = open(script_path, 'x')
@@ -69,11 +68,14 @@ def main():
             return None
 
     with open(script_path, 'a') as f:
+        f.write('IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = \'' + table_name + '\')\n')
+        f.write('BEGIN\n')
         f.write('CREATE TABLE [' + table_name + '] (\n' )
         for name in column_names:
             f.write(get_createtable_entry(df, name) + ',\n')
         f. write('PRIMARY KEY (station_abbr, reference_timestamp)\n')
-        f.write(');')
+        f.write(')\n')
+        f.write('END')
 
 
 if __name__ == "__main__":

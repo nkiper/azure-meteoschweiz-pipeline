@@ -3,11 +3,17 @@
 ## Azure Resource Hierarchy
 
 Subscription (Billing Boundary)
+
 └── Resource Group (Logical Container)
+
 └── Resources (Individual Services)
+
 ├── Storage Accounts
+
 ├── Databases
+
 ├── Compute Services
+
 └── ...
 
 

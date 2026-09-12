@@ -113,16 +113,26 @@ SELECT COUNT(*) FROM table_name  -- Verify table exists and has data
 ### File Structure
 
 scripts/
+
 ├── setup/
+
 │ ├── generate_schema.py (CSV → CREATE TABLE)
+
 │ └── load_data.py (CSV → SQL INSERT)
+
 └── sql/
+
 └── create-tbl-*.sql (Generated SQL scripts)
 
+
 data/
+
 ├── raw/
+
 │ └── ogd-smn_beh_d_recent.csv
+
 ├── processed/
+
 └── docs/
 
 requirements.txt (pandas, pyodbc)

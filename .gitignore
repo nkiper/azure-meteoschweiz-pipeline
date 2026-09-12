@@ -1,5 +1,10 @@
+data/raw/
+data/processed/
+
+.vscode/
 .venv/
 .env
 *.ipynb
 
 privatenotes/*
+.DS_Store

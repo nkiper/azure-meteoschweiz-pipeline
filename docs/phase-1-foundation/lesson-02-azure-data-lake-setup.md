@@ -36,8 +36,11 @@
 - **Folder Structure**:
 
 data/
+
 ├── raw/ (incoming MeteoSchweiz CSVs)
+
 ├── processed/ (transformed data)
+
 └── docs/ (metadata, schemas)
 
 

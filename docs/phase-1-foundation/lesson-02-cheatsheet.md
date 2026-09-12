@@ -10,8 +10,11 @@
 ### Hierarchy
 
 Storage Account
+
 └── Container (like a bucket)
+
 └── Folders/Directories
+
 └── Files
 
 
@@ -36,8 +39,11 @@ Storage Account
 ### Folder Structure Pattern
 
 data/
+
 ├── raw/ ← Raw incoming data (never modify)
+
 ├── processed/ ← Cleaned, transformed data
+
 └── docs/ ← Schemas, metadata, documentation
 
 
