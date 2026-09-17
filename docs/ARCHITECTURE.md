@@ -1,15 +1,29 @@
 Resource group: rg-meteoschweiz-dev
 Region: Switzerland North (data residency + geographic proximity)
 
-Raw Data (MeteoSchweiz) 
-    ↓
-Azure Data Lake Storage Gen2
-    ↓
-Azure Databricks
-    ↓
-Azure SQL Database
-    ↓
-Power BI
+MeteoSchweiz API 
+
+    ↓ (download_data.py)
+
+Local CSVs 
+
+    ↓ (upload step)
+
+Azure Data Lake Storage Gen2 (raw/)
+
+    ↓ (Databricks notebook)
+
+Databricks
+
+    ↓ (Databricks: read, reshape to long format,  upsert)
+
+    ├─→ Azure Data Lake Storage Gen2 (processed/)  [long-format Parquet]
+
+    └─→ Azure SQL Database (long-format table, overwrite mode)
+
+                ↓
+
+            Power BI
 
 ## Components
 

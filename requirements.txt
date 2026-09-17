@@ -2,3 +2,4 @@ pandas
 pyodbc
 python-dotenv
 requests
+azure-storage-file-datalake

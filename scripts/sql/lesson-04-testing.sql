@@ -11,3 +11,9 @@ WHERE station_abbr = 'beh' AND reference_timestamp = '2024-01-01 00:00:00';
 
 SELECT COUNT(DISTINCT station_abbr) AS station_count, COUNT(*) AS total_rows
 FROM [ogd-smn_d_recent];
+
+SELECT COUNT(*) FROM [ogd-smn_d_recent] WHERE station_abbr = 'beh';
+
+DROP TABLE IF EXISTS [ogd-smn_beh_d_recent]; 
+
+SELECT COUNT(*) FROM [ogd-smn_beh_d_recent];
