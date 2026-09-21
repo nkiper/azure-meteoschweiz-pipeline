@@ -1,7 +1,6 @@
 # download_data.py
 # download .csv files from MeteoSchweiz server
 
-# %%
 import requests
 import os
 import pandas as pd

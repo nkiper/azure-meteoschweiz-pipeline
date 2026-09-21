@@ -19,7 +19,7 @@ Databricks
 
     ├─→ Azure Data Lake Storage Gen2 (processed/)  [long-format Parquet]
 
-    └─→ Azure SQL Database (long-format table, overwrite mode)
+    └─→ Azure SQL Database (long-format table, append mode (filter via last timestamp in db))
 
                 ↓
 
