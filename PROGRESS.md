@@ -87,14 +87,46 @@
 
 ## Phase 3: Data Warehouse (Planned)
 
-- Lesson 6: Data Warehouse Schema Design & Advanced SQL
-  - Star schema / dimensional modeling concepts (fact vs. dimension tables)
-  - Designing dimension tables for stations and parameters (from `ogd-smn_meta_stations.csv`, `ogd-smn_meta_parameters.csv` — currently unused metadata)
-  - JOINs, CTEs, window functions — introduced in service of querying the resulting schema
-- Lesson 7: Building the Star Schema
-  - Creating and populating `dim_stations`, `dim_parameters` (and any other dimensions identified in Lesson 6)
-  - Establishing relationships to the fact table `[lf-ogd-smn_d_recent]`
-  - *(Note: originally titled "Loading Transformed Data into DW" — repurposed, since Lesson 5's Databricks notebook already loads the fact table; this lesson now focuses on the dimension side)*
+### Lesson 6a: Data Warehouse Schema Design
+- **Status**: Completed
+- **Topics**:
+  - Star schema fundamentals: fact vs. dimension tables, surrogate keys vs. natural keys, why surrogate keys exist (identity insulation, not primarily performance)
+  - Designing and loading `dim_stations`, `dim_parameters` (English-only filtering, reused local Python/pyodbc pattern — no ADLS/Databricks needed for small static files)
+  - SQL Server-specific syntax: `IDENTITY(1,1)`, multi-table `UPDATE ... FROM ... JOIN`, `GO` batch separation for DDL+DML, `NOT NULL` prerequisites for primary keys
+  - Backfilling foreign keys onto an existing 1.6M-row fact table (add columns → populate via UPDATE/JOIN → verify → enforce NOT NULL → add PK)
+  - Diagnosing `LOG_RATE_GOVERNOR` (Azure SQL's transaction-log throttling) as a third recurring instance of Basic tier's compute/throughput ceiling
+  - Redesigning the Databricks notebook from full `overwrite` to incremental `append` (max-timestamp filter + proper Spark `.join()` for surrogate keys, replacing an inefficient per-row loop draft)
+  - Databricks Git folders: connecting a notebook to GitHub, diagnosing a `.gitignore` `*.ipynb` rule blocking change detection
+- **Key Deliverables**:
+  - `dim_stations` (158 rows), `dim_parameters` (181 rows) — surrogate + natural keys, `UNIQUE NOT NULL` constraints
+  - `scripts/setup/generate_dim_stations_schema.py`, `load_dim_stations.py`
+  - `scripts/setup/generate_dim_parameters_schema.py`, `load_dim_parameters.py`
+  - `[lf-ogd-smn_d_recent]`: `station_id`/`parameter_id` foreign keys, composite `PRIMARY KEY (station_id, reference_timestamp, parameter_id)`
+  - Revised Databricks notebook (`scripts/databricks/`, Git-tracked) — incremental append pattern, verified end-to-end (61,698 new rows, zero duplicates, zero NULL FKs)
+  - `ARCHITECTURE.md` updated to reflect full star schema
+  - `docs/phase-3-warehouse/lesson-06a-summary.md`, `lesson-06a-cheatsheet.md`
+- **Date Completed**: September 21, 2026
+
+### Lesson 6b: Advanced SQL — JOINs, CTEs, Window Functions
+- **Status**: Completed
+- **Topics**:
+  - JOINs (2-table, 3-table) across fact and dimension tables; column-qualification rule; inner vs. left join equality guarantees
+  - CTEs for structuring multi-step queries
+  - `GROUP BY` rule for functionally-dependent joined columns
+  - Window functions: `PARTITION BY`, partition-wide vs. running aggregates (`ORDER BY` inside `OVER`), default window frame
+  - Ranking functions (`ROW_NUMBER`, `RANK`, `DENSE_RANK`) and their tie-handling differences, confirmed against real ties in the data
+- **Key Deliverables**:
+  - Practice queries: multi-table joins with `dim_stations`/`dim_parameters`, a CTE (`high_elevation_stations`), running averages, station ranking by value with observed ties
+  - `docs/phase-3-warehouse/lesson-06b-summary.md`, `lesson-06b-cheatsheet.md`
+- **Date Completed**: September 21, 2026
+
+### Lesson 7: Building the Star Schema (Remaining Scope)
+- **Status**: Not Started
+- **Topics**:
+  - Designing and building `dim_date` (calendar attributes: year, month, day-of-week, season, etc.)
+  - Wiring `dim_date` into the fact table (foreign key, backfill pattern reused from Lesson 6a)
+  - Formally marking `[ogd-smn_d_recent]` (the Lesson 4 wide table) as legacy/deprecated — superseded by the star schema
+  - Consolidated star schema documentation (single diagram/description covering fact + all dimensions + relationships)
 
 ---
 
