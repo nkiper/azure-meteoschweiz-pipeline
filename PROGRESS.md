@@ -120,13 +120,26 @@
   - `docs/phase-3-warehouse/lesson-06b-summary.md`, `lesson-06b-cheatsheet.md`
 - **Date Completed**: September 21, 2026
 
-### Lesson 7: Building the Star Schema (Remaining Scope)
-- **Status**: Not Started
+### Lesson 7: Date Dimension & Schema Documentation
+- **Status**: Completed
 - **Topics**:
-  - Designing and building `dim_date` (calendar attributes: year, month, day-of-week, season, etc.)
-  - Wiring `dim_date` into the fact table (foreign key, backfill pattern reused from Lesson 6a)
-  - Formally marking `[ogd-smn_d_recent]` (the Lesson 4 wide table) as legacy/deprecated — superseded by the star schema
-  - Consolidated star schema documentation (single diagram/description covering fact + all dimensions + relationships)
+  - Generated (not sourced) dimension table design — `dim_date` built programmatically, no external file
+  - Surrogate key convention specific to date dimensions (`YYYYMMDD` integer) vs. `IDENTITY`, and why a real `DATE`/`DATETIME` column is still needed alongside it
+  - Deliberately excluding `date_id` from the fact table's composite primary key (granularity/future-proofing reasoning)
+  - Casting to `DATE` before joining/comparing `DATETIME` values, to avoid silent time-component mismatches
+  - PySpark join `on=` column-resolution rules, learned through direct testing (select-then-drop pattern for join-only columns)
+  - Reused the Lesson 6a backfill/constraint sequence a third time; caught and fixed missing `FK_lf_station`/`FK_lf_parameter` constraints on the live table
+  - Formally retiring legacy artifacts: table rename (`sp_rename`), file rename (`git mv`) + deprecation comments, deliberately leaving historical docs unedited
+  - Consolidated schema documentation via a Mermaid ER diagram in `ARCHITECTURE.md`
+- **Key Deliverables**:
+  - `dim_date` (365 rows): `date_id`, `full_date`, `year`, `month`, `month_name`, `season`
+  - `scripts/setup/generate_dim_date_schema.py`, `load_dim_date.py`
+  - `[lf-ogd-smn_d_recent]`: `date_id` FK added/backfilled; `FK_lf_station`/`FK_lf_parameter` re-verified and re-added
+  - Databricks notebook: three-dimension join in the incremental-load flow, verified (18,486 new rows, zero duplicates, zero NULL FKs)
+  - `[legacy_ogd-smn_d_recent]`, `legacy_generate_wide_fact_schema.py`, `legacy_load_wide_fact_data.py`
+  - `ARCHITECTURE.md`: Mermaid star schema diagram
+  - `docs/phase-3-warehouse/lesson-07-summary.md`, `lesson-07-cheatsheet.md`
+- **Date Completed**: September 24, 2026
 
 ---
 

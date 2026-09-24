@@ -1,4 +1,4 @@
-# load_data.py
+# LEGACY: superseded by the Databricks notebook (Lesson 5+) — was used to load single-station data into [ogd-smn_d_recent] (now legacy_ogd-smn_d_recent)
 # read .csv file, connect to azure, insert rows into table
 
 from dotenv import load_dotenv

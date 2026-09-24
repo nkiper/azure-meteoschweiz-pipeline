@@ -1,4 +1,4 @@
-# generate_schema.py
+# LEGACY: superseded by the Databricks notebook (Lesson 5+) — was used to create [ogd-smn_d_recent] (now legacy_ogd-smn_d_recent)
 # Script to read .csv file, extract column names, infer data types, and create CREATE TABLE statement
 
 # %%
