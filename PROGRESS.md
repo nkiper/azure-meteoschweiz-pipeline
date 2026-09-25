@@ -145,8 +145,27 @@
 
 ## Phase 4: Analytics & BI (Planned)
 
-- Lesson 8: Power BI Semantic Models
-- Lesson 9: Dashboard & Report Design
+### Lesson 8: Power BI Semantic Models
+- **Status**: Completed
+- **Topics**:
+  - Tabular model vs. legacy OLAP cube terminology
+  - Power BI Desktop vs. Service capability gap on Mac; Parallels as the correct (not excessive) solution
+  - Import vs. DirectQuery, decided against the project's actual update cadence and Basic-tier constraints
+  - Relationship auto-detection and verification (cardinality, cross-filter direction)
+  - Calculated column vs. measure; measure home-table mechanics
+  - Long-format aggregation pitfalls (mixing incompatible units across parameters)
+  - `COUNT` vs. `COUNTROWS` and what their difference reveals about data completeness
+  - Data-quality investigation workflow: measure → matrix → raw source file, root-causing two real anomalies (BLA: 2025 landslide-related outage; NAS: an 11-day May gap, confirmed source-level not pipeline-introduced)
+- **Key Deliverables**:
+  - Power BI Desktop (Parallels) connected to Azure SQL, Import mode, star schema (fact + 3 dimensions, legacy table excluded)
+  - Three verified relationships (auto-detected, correct cardinality/direction)
+  - Three DAX measures: `Average Value`, `Datapoint Count`, `Total Row Count`
+  - `docs/phase-4-analytics/lesson-08-summary.md`, `lesson-08-cheatsheet.md`
+- **Date Completed**: September 25, 2026
+
+### Lesson 9: Dashboard & Report Design
+- **Status**: Not Started
+- **Topics**: TBD — likely parameter-specific measures as needed, visual design, possibly a data-quality/completeness dashboard element given Lesson 8's findings
 
 ---
 
