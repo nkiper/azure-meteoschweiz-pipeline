@@ -145,7 +145,7 @@
 
 ## Phase 4: Analytics & BI (Planned)
 
-### Lesson 8: Power BI Semantic Models
+### Lesson 8a: Power BI Semantic Models
 - **Status**: Completed
 - **Topics**:
   - Tabular model vs. legacy OLAP cube terminology
@@ -163,9 +163,31 @@
   - `docs/phase-4-analytics/lesson-08-summary.md`, `lesson-08-cheatsheet.md`
 - **Date Completed**: September 25, 2026
 
+### Lesson 8b: Historical Monthly Data & Fact Constellation
+- **Status**: Completed
+- **Topics**:
+  - Attempted daily historical backfill (year-by-year chunking, manual verification per year) and why it was abandoned
+  - `LOG_RATE_GOVERNOR` confirmed as the write bottleneck: temporarily scaling Basic to 100 DTU cut per-year load time from ~28 min to ~3.5 min, while raising `numPartitions` made it slower
+  - Basic tier's 2 GB storage limit, why database size far exceeds raw CSV size (row expansion from unpivoting, indexes, log), and that large deletes need batching and don't reclaim space without an explicit shrink
+  - Rescoping: monthly data (from 1975) instead of daily history, since the goal is comparing this year against historical averages
+  - Fact constellation: separate fact tables per grain sharing conformed dimensions (`dim_stations`, `dim_parameters`)
+  - Creating a fact table explicitly with PK, `NOT NULL` and FKs upfront instead of retrofitting constraints
+  - Power BI: adding a second fact table and dimension, manual relationships, `month_name` sorted by `month`, and a first `CALCULATE`-based measure
+- **Key Deliverables**:
+  - `dim_month` (`full_month_date`, `year`, `month`, `month_name`, `season`, `month_id` = YYYYMM), 1975-01 through 2026-12
+  - `[lf-ogd-smn_m]`: monthly long-format fact, composite PK `(station_id, parameter_id, month_id)`, three foreign keys
+  - `load_dim_month.py` and the updated Databricks notebook
+  - Power BI model extended with the monthly fact table and `dim_month`
+  - `ARCHITECTURE.md` updated (fact constellation diagram, data scope decisions)
+- **Open item**: refresh strategy for the monthly table not yet decided
+- **Date Completed**: September 27, 2026
+
 ### Lesson 9: Dashboard & Report Design
 - **Status**: Not Started
-- **Topics**: TBD — likely parameter-specific measures as needed, visual design, possibly a data-quality/completeness dashboard element given Lesson 8's findings
+- **Topics**:
+  - Monthly average by year (line chart, parameter and month slicers)
+  - This year vs. historical average by month
+  - Additional visuals as needed, possibly a data-completeness view given Lesson 8's findings
 
 ---
 

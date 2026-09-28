@@ -1,16 +1,16 @@
-# load_dim_date.py
-# connect to azure, insert date dims into table
+# load_dim_month.py
+# connect to azure, insert month dims into table
 
 from dotenv import load_dotenv
 import pyodbc
 import pandas as pd
 import os
-import datetime
+
 
 load_dotenv()
 PROJECT_DIR = os.getenv(r'PROJECT_DIR')
 
-TABLENAME = 'dim_date'
+TABLENAME = 'dim_month'
 
 CONNECTION_STRING = os.getenv('AZURE_SQL_CONNECTION_STRING')
 
@@ -29,18 +29,18 @@ def main():
 
     table_name = TABLENAME
 
-    column_names = ['full_date', 'year', 'month', 'month_name', 'season', 'date_id' ]
+    column_names = ['full_month_date', 'year', 'month', 'month_name', 'season', 'month_id' ]
     
     SQL_string = 'MERGE INTO [' + table_name + '] AS target ' \
                 + 'USING (SELECT ? AS ' + ', ? AS '.join(column_names) +') ' \
                 + 'AS source ' \
-                + 'ON target.date_id = source.date_id ' \
+                + 'ON target.month_id = source.month_id ' \
                 + 'WHEN NOT MATCHED THEN ' \
                 + 'INSERT (' + ', '.join(column_names) + ') ' \
                 + 'VALUES (source.' + ', source.'.join(column_names) + ');'  
 
     seasons = ['Winter', 'Spring', 'Summer', 'Fall']
-    dti = pd.date_range('2000-01-01','2026-12-31',freq='d')
+    dti = pd.date_range('1975-01-01','2026-12-31',freq='MS')
 
     for i, dt in enumerate(dti):
         row_values = [dt, 
@@ -48,7 +48,7 @@ def main():
                       dt.month, 
                       dt.month_name(), 
                       seasons[dt.month%12 // 3], 
-                      dt.year*10**4+dt.month*10**2+dt.day]
+                      dt.year*10**2+dt.month]
         cursor.execute(SQL_string, row_values)
         if (i + 1) % 50 == 0:
             print(f"Inserted {i + 1} rows...")

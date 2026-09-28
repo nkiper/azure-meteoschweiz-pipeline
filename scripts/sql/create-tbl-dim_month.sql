@@ -1,0 +1,11 @@
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'dim_date')
+BEGIN
+CREATE TABLE [dim_date] (
+full_date DATETIME UNIQUE NOT NULL,
+year INT NOT NULL,
+month INT NOT NULL,
+month_name VARCHAR(255) NOT NULL,
+season VARCHAR(255) NOT NULL,
+date_id INT PRIMARY KEY
+)
+END
