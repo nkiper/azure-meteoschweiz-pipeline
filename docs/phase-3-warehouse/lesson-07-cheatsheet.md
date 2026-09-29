@@ -77,7 +77,7 @@ Prefer this over OS-level rename or delete+recreate for tracked files.
 
 ```mermaid
 erDiagram
-    FACT ||--o{ DIM_A : fk_column
+    DIM_A ||--o{ FACT : fk_column
     FACT {
         int fk_column PK
         datetime other_col PK

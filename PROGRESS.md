@@ -183,11 +183,23 @@
 - **Date Completed**: September 27, 2026
 
 ### Lesson 9: Dashboard & Report Design
-- **Status**: Not Started
+- **Status**: Completed
 - **Topics**:
-  - Monthly average by year (line chart, parameter and month slicers)
-  - This year vs. historical average by month
-  - Additional visuals as needed, possibly a data-completeness view given Lesson 8's findings
+  - `CALCULATE` filter-context rules: same-column override (axis vs. explicit filter) vs. relationship-propagated filters not overriding cleanly (needs `REMOVEFILTERS`)
+  - Cross-granularity parameter correspondence built into `dim_parameters` (`corr_m_id`/`corr_d_id`), via a standalone post-load script
+  - Debugging blank measures by isolating pieces in test cards before trusting them in charts/titles
+  - Line chart Legend-well restriction on multiple Y-axis measures
+  - Dynamic visual titles: text-typed measure requirement, `fx` availability on Title vs. Y-axis title
+  - Edit interactions: scoping one slicer's effect per visual on a shared page
+  - Enabling map visuals (Current File + Global security settings, requires restart)
+  - Click-to-filter vs. a visual's own title context (map station selector, card-as-title workaround)
+- **Key Deliverables**:
+  - `scripts/setup/update_dim_parameters.py` — daily/monthly parameter correspondence
+  - Measures: `Historical Average`, `This Year Average`, `This Year Daily Point`, dynamic title measure
+  - Report page: two comparison line charts + station map, with interaction scoping and title workarounds
+  - `powerBI/` folder: `.pbix` file and a PDF example export (point-in-time, not kept in sync)
+  - `docs/phase-4-analytics/lesson-09-summary.md`, `lesson-09-cheatsheet.md`
+- **Date Completed**: September 29, 2026
 
 ---
 
