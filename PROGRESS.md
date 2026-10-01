@@ -205,7 +205,33 @@
 
 ## Phase 5: Infrastructure as Code (Planned)
 
-- Lesson 10: Terraform Fundamentals
+### Lesson 10: Terraform Fundamentals
+- **Status**: Completed
+- **Topics**:
+  - Declarative vs. imperative, state as the diff target (not live Azure), why a remote backend matters for teams but not solo use
+  - `terraform import`'s central limitation: populates state only, never the config file — three distinct real outcomes encountered (destroy/replace from a missing attribute, silent drift to a provider default, a value Azure never returns on read)
+  - Deliberate scope: core resources only (resource group, storage account, SQL server, SQL database, Databricks workspace) — cluster, schemas, and data explicitly out of Terraform's management
+  - `sensitive` vs. `ephemeral` variables, and why `ephemeral` isn't universally available per attribute
+  - A setting (Databricks public network access) that's unconfigurable independent of another decision (VNet injection), diagnosed across Portal, CLI, and Terraform state
+  - Reading full `plan` output, every time, before trusting or applying it
+- **Key Deliverables**:
+  - `terraform/providers.tf`, `terraform/terraform.tfvars` (gitignored)
+  - Five resources imported and verified: resource group, storage account, SQL server, SQL database, Databricks workspace
+  - `.gitignore` updated for all Terraform-generated/sensitive files
+  - `ARCHITECTURE.md`: Terraform scope and known gaps section
+  - `docs/phase-5-iac/lesson-10-summary.md`, `lesson-10-cheatsheet.md`
+- **Date Completed**: October 1, 2026
+
+---
+
+## Curriculum Status: Complete
+
+All five phases (Foundation, ETL, Data Warehouse, Analytics & BI, Infrastructure as Code) are done. The project covers the full path from raw MeteoSchweiz data to a documented, version-controlled, partly-IaC-managed Azure pipeline with a Power BI reporting layer.
+
+**Known open items, not tied to a specific lesson:**
+- Daily historical backfill was abandoned (Lesson 8b) in favor of monthly data; leftover ADLS files (`processed/historical`, uploaded historical CSVs) have not been cleaned up.
+- Databricks monthly fact table refresh strategy undecided.
+- No second (e.g., prod) environment — Terraform currently targets only the single existing dev setup.
 
 ---
 

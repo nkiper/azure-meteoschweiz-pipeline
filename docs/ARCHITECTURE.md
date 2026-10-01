@@ -111,3 +111,16 @@ erDiagram
 - **Daily history was not loaded.** A backfill of 2000 onward was started, but the Basic tier's 2 GB limit made it impractical, and daily granularity isn't needed to compare this year against historical averages. The partial load was deleted and monthly data replaced it.
 
 **Open item**: how new months get added to `[lf-ogd-smn_m]` over time (re-run, incremental append, or leave static) is not decided yet.
+
+## Infrastructure as Code (Terraform)
+
+Terraform manages the five core, stable Azure resources: `rg-meteoschweiz-dev`, the storage account `nkipermeteodata001`, the SQL server `sqls-nkipermeteo-dev`, the database `db-nkipermeteo`, and the Databricks workspace `dbw-nkipermeteo-dev`.
+
+**Deliberately out of scope:**
+- The Databricks **cluster** — started and stopped manually as needed; not a stable, long-lived resource and not a good fit for static IaC.
+- **Table schemas and data** — every table, dimension, fact table, constraint, and row is managed by the project's own Python scripts and the Databricks notebook, not by Terraform. Terraform's job stops at "does the SQL server and database exist with the right settings," not what's inside the database.
+- Azure resources used only transiently (e.g., a temporary DTU tier bump for a large load) are not modeled in Terraform at all.
+
+**State and secrets**: `terraform.tfstate`, `terraform.tfstate.backup`, and `terraform.tfvars` are git-ignored and never committed. `.terraform.lock.hcl` is committed (provider version/checksums only, no resource data). The SQL admin password is passed as a `sensitive` Terraform variable. `ephemeral` is not supported for `administrator_login_password` on this resource (the provider requires it to persist to state), so the password is present, in plain text, inside the local state file — the main reason `terraform.tfstate` must never be committed or shared.
+
+**Known limitation**: `terraform import` only populates Terraform's state, never the configuration file. A resource block with too few arguments can produce a `plan` that looks like a routine update but is actually a destructive replace, or a silent drift toward a provider's default that overrides a deliberate earlier setting. Every `plan` should be read in full — not just the summary line — before applying, specifically checking for `# forces replacement`.
